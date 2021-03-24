@@ -4,6 +4,7 @@ from modules.client.blueprint import client
 from modules.admin.blueprint import admin
 from modules.admin.login import login_manager
 from config import Basic, Test
+from os import environ
 
 def create_app(config):
 	app = Flask(__name__, static_folder='static')
@@ -25,11 +26,12 @@ def setup():
 	db.drop_all()
 	db.create_all()
 
-	user = Users(username='seth',email='sethdad224@gmail.com')
-	user.password = 'seth'
+	user = Users(username='seth',email=environ.get('EMAIL_ADDRESS'))
+	user.password = environ.get('PASSWORD')
 
 	db.session.add(Tags(name='flask'))
 	db.session.add(Tags(name='biology'))
+	db.session.add(Tags(name='chemistry'))
 	db.session.add(user)
 	
 	db.session.commit()
