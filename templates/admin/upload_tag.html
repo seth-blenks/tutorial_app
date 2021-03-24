@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Upload</title>
+	<meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=false'>
+</head>
+<body>
+	<h3> Upload Post</h3>
+	<form method='POST'>
+		{% for field in form %}
+			{{field(placeholder=field.name)}}
+		{% endfor %}
+		
+		<input type='submit' value="send">
+	</form>
+</body>
+</html>

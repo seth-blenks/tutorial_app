@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Dashboard</title>
+	<meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=false'>
+	<style>
+		img{
+			width: 250px;
+			height: 250px;
+			border: 2px solid grey;
+		}
+	</style>
+</head>
+<body>
+	<main role='main'>
+		<button onclick="get_images()">Images</button>
+		<button onclick="get_posts()">Posts</button>
+		<button onclick='get_tags()'>Tags</button>
+		<a href='{{url_for("admin.upload_post")}}'>Upload Post</a>
+		<a href='{{url_for("admin.upload_tag")}}'>Upload Tag</a>
+		<a href='{{url_for("admin.upload_image")}}'>Upload Image</a>
+		<section></section>
+	</main>
+	
+	<script src='/static/js/ejs.js'></script>
+	<script>
+		let section = document.querySelector('section')
+		let admin_route = '{{url_for("admin.homepage")}}'
+
+		function get_images(){
+			var xhr = new XMLHttpRequest();
+			xhr.open('get','{{url_for("admin.get_images")}}')
+			xhr.response = 'application/json'
+
+			xhr.onload = function(){
+
+				var data = JSON.parse(xhr.response);
+				var content = ejs.render(`
+					
+						<ul>
+							<% for(var i in data) { %>	
+							<li>
+								<figure>
+									<img style='width: 100px; height: 100px;' src='/static/img/<%= data[i].name %>'>
+									<figcaption><%= data[i].name %></figcaption>
+								<figure>
+							</li>
+							<% } %>
+						</ul>
+
+					`, {data:data})
+
+				section.innerHTML = content;
+			}
+			xhr.send();
+		};
+
+		function get_posts(){
+			var xhr = new XMLHttpRequest();
+			xhr.open('get','{{url_for("admin.get_posts")}}')
+			xhr.response = 'application/json'
+
+			xhr.onload = function(){
+				var data = JSON.parse(xhr.response);
+				console.log(data)
+				var content = ejs.render(`
+					<ul>
+							<% for(var i in data) { %>	
+							<li>
+								<figure>
+									<img style='width: 100px; height: 100px;' src='/static/img/<%= data[i]['image_name'] %>'>
+									<figcaption><%= data[i].name %></figcaption>
+								<figure>
+							</li>
+							<li>title: <%= data[i].title %> </li>
+							<li>image name: <%= data[i].image_name %></li>
+							<li>author: <%= data[i].author %></li>
+							<li>tags: 
+								<% for(var j in data[i].tags) { %>
+									<%= data[i][j] %>
+								<% } %>
+							</li>
+							<a href='${admin_route}/update?id=<%= data[i].id %>'>Update </a>
+							<% } %>
+						</ul>
+					`,{data:data})
+				section.innerHTML = content;
+			}
+			xhr.send();
+		};
+
+		function get_tags(){
+			var xhr = new XMLHttpRequest();
+			xhr.open('get','{{url_for("admin.get_tags")}}')
+			xhr.response = 'application/json'
+
+			xhr.onload = function(){
+				var data = JSON.parse(xhr.response);
+				var content = ejs.render(`
+					<ul>
+					<% for (var i in data) { %>
+						<li> <%= data[i].name %> </li>
+					<% } %>
+					</ul>
+					`,{data:data})
+				section.innerHTML = content;
+			}
+			xhr.send();
+		};
+
+	</script>
+</body>
+</html>

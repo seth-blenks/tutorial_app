@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Upload</title>
+	<style>
+		input{
+			display: block;
+		}
+	</style>
+</head>
+<body>
+	<h3> Upload Post</h3>
+	{% for message in get_flashed_messages() %}
+	{{messsage}}
+	{% endfor %}
+	<form method='POST'>
+		{{form.hidden_tag()}}
+		<input type='text' name='title' value="{{post.title}}">
+		<input type="text" name="image_name" value="{{post.image_name}}">
+		<input type='text' name='tags' value='{{tags}}'>
+		<label for='description'>Description: </label>
+		<textarea name='description'>{{post.description}}</textarea>
+
+		<label for='content'>Content: </label>
+		<textarea name='content'>{{post.content}}</textarea>
+		<input type='submit' value="send">
+	</form>
+</body>
+</html>

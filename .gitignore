@@ -1,0 +1,4 @@
+__pycache__
+static/img/*
+data.db
+test.py
