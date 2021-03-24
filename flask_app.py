@@ -18,7 +18,7 @@ def create_app(config):
 
 	return app
 
-app = create_app(Test)
+app = create_app(Basic)
 
 @app.cli.command('setup')
 def setup():
