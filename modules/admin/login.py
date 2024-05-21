@@ -21,7 +21,7 @@ def login():
 		user = Users.query.filter_by(email=email).first()
 		if not user:
 			flash('Login failed')
-			return redirect(url_for('client.login'))
+			return redirect(url_for('admin.login'))
 
 		if user.check_password(form.password.data):
 			user.is_authenticated = True
@@ -40,8 +40,8 @@ def login():
 
 	return render_template('login.html',form=form)
 
-'''
-@client.route('/register', methods=['POST','GET'])
+
+@admin.route('/register', methods=['POST','GET'])
 def register():
 	form = RegisterForm()
 
@@ -50,7 +50,7 @@ def register():
 		user = Users.query.filter_by(email=email).first()
 		if user:
 			flash('user with this email already exists')
-			return redirect(url_for('client.login'))
+			return redirect(url_for('admin.login'))
 
 		user = Users(username=form.username.data,email=email)
 		user.password = form.password.data
@@ -58,7 +58,6 @@ def register():
 		db.session.add(user)
 		db.session.commit()
 		flash("login successful")
-		return redirect(url_for('client.login'))
+		return redirect(url_for('admin.login'))
 
 	return render_template('register.html', form=form)
-'''

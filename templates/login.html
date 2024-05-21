@@ -1,20 +1,62 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Login</title>
+    <title>Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            width: 300px;
+            margin: 0 auto;
+        }
+
+        label {
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            margin-bottom: 15px;
+        }
+
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .message {
+            color: red;
+            margin-top: 10px;
+        }
+    </style>
 </head>
 <body>
-	<form method='POST'>
-		{% for field in form %}
-			{{field(placdholder=field.name)}}
-		{% endfor %}
-		<input type='submit' value='send'>
-	</form>
+    <form method='POST'>
+        {% for field in form %}
+            <label for="{{ field.name }}">{{ field.label }}</label>
+            {{field(size=30, placeholder=field.name)}}
+        {% endfor %}
+        <input type='submit' value='Login'>
+    </form>
 
-	<p>
-		{% for message in get_flashed_messages() %}
+    <p class="message">
+        {% for message in get_flashed_messages() %}
             {{message}}
-          {% endfor %}
-     </p>
+        {% endfor %}
+      </p>
 </body>
 </html>
